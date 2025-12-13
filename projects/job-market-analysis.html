@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI/ML Job Market Analysis | Innocent Makaya</title>
+    <meta name="description" content="Analysis of 123,000+ LinkedIn job postings to reveal AI/ML job market trends - A project by Innocent Makaya">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Glow animation for dashboard */
+        @keyframes glow-pulse {
+            0% {
+                box-shadow: 0 0 20px rgba(0, 255, 209, 0.4), 
+                            0 0 40px rgba(0, 255, 209, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(0, 255, 209, 0.8), 
+                            0 0 80px rgba(0, 255, 209, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(0, 255, 209, 0.4), 
+                            0 0 40px rgba(0, 255, 209, 0.2);
+            }
+        }
+
+        .project-viewer {
+            min-height: 100vh;
+            background: var(--color-background);
+            color: var(--color-text);
+        }
+
+        .viewer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--color-text);
+            text-decoration: none;
+            margin-bottom: 3rem;
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-button:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: var(--color-surface);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 32px rgba(0, 255, 209, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 2rem;
+            background: var(--color-accent);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-text);
+        }
+
+        .section-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-content ul {
+            list-style: none;
+        }
+
+        .section-content ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            border: 4px solid var(--color-surface);
+        }
+
+        .timeline-content {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--color-text);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.75rem 1.5rem;
+            background: var(--color-surface-light);
+            color: var(--color-accent);
+            border-radius: 8px;
+            font-weight: 500;
+            border: 1px solid var(--color-accent);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateY(-2px);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 209, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--color-accent);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            font-size: 1rem;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        /* Glowing effect animation */
+        @keyframes glow-pulse {
+            0% {
+                box-shadow: 0 0 20px rgba(0, 255, 209, 0.4), 
+                            0 0 40px rgba(0, 255, 209, 0.2),
+                            inset 0 0 20px rgba(0, 255, 209, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0, 255, 209, 0.6), 
+                            0 0 60px rgba(0, 255, 209, 0.3),
+                            inset 0 0 30px rgba(0, 255, 209, 0.15);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(0, 255, 209, 0.4), 
+                            0 0 40px rgba(0, 255, 209, 0.2),
+                            inset 0 0 20px rgba(0, 255, 209, 0.1);
+            }
+        }
+
+        .dashboard-container {
+            background: var(--color-surface-light);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 3px solid var(--color-accent);
+            animation: glow-pulse 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-container::before {
+            content: '✨ Interactive Dashboard - Click to Explore ✨';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+            color: var(--color-text);
+            padding: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            z-index: 10;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .dashboard-container iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 2.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-container iframe:hover {
+            transform: scale(1.02);
+        }
+
+        .dashboard-placeholder {
+            background: rgba(0, 255, 209, 0.05);
+            border: 2px dashed var(--color-accent);
+            border-radius: 12px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .dashboard-placeholder h3 {
+            color: var(--color-accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-placeholder p {
+            color: var(--color-text);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .viewer-container {
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+            }
+
+            .timeline-marker {
+                left: 5px;
+            }
+
+            .dashboard-container iframe {
+                height: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-viewer">
+        <div class="viewer-container">
+            <a href="../index.html#projects" class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+
+            <div class="project-header">
+                <h1 class="project-title">AI/ML Job Market Analysis</h1>
+                <p class="project-subtitle">Uncovering What Skills Really Matter in Data Science & AI Careers</p>
+            </div>
+
+            <!-- Motivation & Context -->
+            <div class="content-section">
+                <h2 class="section-title">Why I Built This</h2>
+                <div class="section-content">
+                    <p>As someone passionate about AI, machine learning, and data science, I wanted to answer a critical question:What skills do I actually need to land a job in this field?</p>
+                    
+                    <p>Instead of relying on generic advice or outdated career guides, I decided to go straight to the source, real job postings from real companies. I analyzed over 123,000 LinkedIn job listings to discover:</p>
+                    
+                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">📊 <strong>Top Skills:</strong> Which technical skills appear most frequently in AI/ML job descriptions</li>
+                        <li style="margin-bottom: 0.5rem;">🏢 <strong>Hiring Companies:</strong> Which organizations are actively recruiting for these roles</li>
+                        <li style="margin-bottom: 0.5rem;">🌍 <strong>Geographic Trends:</strong> Where these opportunities are concentrated globally</li>
+                        <li style="margin-bottom: 0.5rem;">📈 <strong>Monthly Patterns:</strong> How hiring trends evolve over time</li>
+                    </ul>
+
+                    <p>This project was deeply personal,I built it for myself to guide my own career development. But I realized the insights could help anyone navigating the competitive landscape of AI and data careers.</p>
+                </div>
+            </div>
+
+            <!-- Project Overview -->
+            <div class="content-section">
+                <h2 class="section-title">Project Overview</h2>
+                <div class="section-content">
+                    <p>This data analysis project processes a massive dataset of LinkedIn 2024 job postings, to extract actionable insights about the Data Science and AI/ML job market. The result is an interactive Tableau dashboard that lets you explore the data yourself,filter by job role, discover skill requirements, and identify hiring trends.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">123,849</div>
+                        <div class="stat-label">Total Job Postings Analyzed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">824</div>
+                        <div class="stat-label">AI/ML/Data Science Jobs</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Technical Skills Tracked</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Job Categories</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="content-section">
+                <h2 class="section-title">How It Works</h2>
+                <div class="section-content">
+                    <p>This project combines <strong>Python data processing</strong> with <strong>Tableau visualization</strong> to transform raw job posting data into meaningful career insights.</p>
+                    
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">The Data Pipeline</h3>
+                    <p>I built a comprehensive Python script that processes LinkedIn job postings through several stages:</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Job Title Standardization</h3>
+                        <p class="feature-description">Mapped 30+ job title variations (e.g., "Senior Data Scientist", "Lead Data Scientist") to 4 standardized categories: Data Scientist, ML Engineer, AI Engineer, and Data Engineer.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Intelligent Skill Extraction</h3>
+                        <p class="feature-description">Developed regex-based algorithm to identify 150+ technical skills from job descriptions and skill sections, including Python, AWS, TensorFlow, NLP, and more.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Data Aggregation</h3>
+                        <p class="feature-description">Generated CSV files for top skills per role, hiring companies, geographic locations, and monthly posting trends, ready for Tableau visualization.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Interactive Dashboard</h3>
+                        <p class="feature-description">Built Tableau dashboard with dynamic filters, select any job role (or view all) to see top skills, companies, locations, and hiring trends update in real-time.</p>
+                    </div>
+                </div>
+
+                <div class="section-content" style="margin-top: 2rem;">
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Dashboard Features</h3>
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">🎯 <strong>Job Role Filter:</strong> Choose between Data Scientist, ML Engineer, AI Engineer, Data Engineer, or view ALL roles</li>
+                        <li style="margin-bottom: 0.5rem;">📊 <strong>Top Skills Chart:</strong> Bar chart showing the most in-demand technical skills</li>
+                        <li style="margin-bottom: 0.5rem;">🏢 <strong>Top Companies Chart:</strong> Which organizations are hiring the most</li>
+                        <li style="margin-bottom: 0.5rem;">🗺️ <strong>Geographic Map:</strong> Interactive world map showing job concentrations by location</li>
+                        <li style="margin-bottom: 0.5rem;">📈 <strong>Monthly Trends:</strong> Line chart revealing hiring patterns over time</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <!-- Interactive Dashboard Section -->
+            <div class="content-section">
+                <h2 class="section-title">Interactive Dashboard</h2>
+                <div class="section-content">
+                    <p>Explore the AI/ML job market data yourself! Use the filter to select specific roles or view all jobs at once. The dashboard updates in real-time to show you the most in-demand skills, top hiring companies, geographic hotspots, and monthly hiring trends.</p>
+                    
+                    <p><strong>How to Use:</strong></p>
+                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">🎯 Select a job role from the filter (Data Scientist, ML Engineer, AI Engineer, Data Engineer, or ALL)</li>
+                        <li style="margin-bottom: 0.5rem;">📊 View the top skills required for that role in the bar chart</li>
+                        <li style="margin-bottom: 0.5rem;">🏢 See which companies are hiring the most</li>
+                        <li style="margin-bottom: 0.5rem;">🗺️ Explore geographic distribution on the interactive map</li>
+                        <li style="margin-bottom: 0.5rem;">📈 Analyze hiring trends over time with the monthly chart</li>
+                    </ul>
+
+                    <div style="background: rgba(0, 255, 209, 0.1); border-left: 4px solid var(--color-accent); padding: 1rem; border-radius: 8px; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                        <p style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.5rem;">📌 Note on Data Visualization:</p>
+                        <p style="color: var(--color-text); line-height: 1.6;">The dashboard displays the top 10 skills and top 10 companies for easier visualization and readability. However, the complete analysis identified 150+ technical skills across all job postings. Many important skills beyond the top 10 such as specialized frameworks, domain-specific tools, vizualization tools and emerging technologies were analyzed and documented in this research. The insights from these additional skills inform the broader conclusions about the job market.</p>
+                    </div>
+                </div>
+
+                <!-- Tableau Dashboard Embed -->
+                <div class='tableauPlaceholder' id='viz1760865512952' style='position: relative; padding: 2rem; background: var(--color-surface-light); border-radius: 12px; border: 3px solid var(--color-accent); animation: glow-pulse 3s ease-in-out infinite; box-shadow: 0 0 30px rgba(0, 255, 209, 0.5), 0 0 60px rgba(0, 255, 209, 0.3); margin-top: 2rem;'>
+                    <div style="text-align: center; margin-bottom: 1rem; padding: 0.75rem; background: linear-gradient(90deg, transparent, rgba(0, 255, 209, 0.3), transparent); border-radius: 8px;">
+                        <p style="color: var(--color-accent); font-weight: 600; font-size: 1rem;">✨ Interactive Dashboard - Click to Explore Data ✨</p>
+                    </div>
+                    <noscript>
+                        <a href='#'><img alt='Dashboard 1' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;AI&#47;AIMLJobMarketAnalysis&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a>
+                    </noscript>
+                    <object class='tableauViz' style='display:none;'>
+                        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                        <param name='embed_code_version' value='3' />
+                        <param name='site_root' value='' />
+                        <param name='name' value='AIMLJobMarketAnalysis&#47;Dashboard1' />
+                        <param name='tabs' value='no' />
+                        <param name='toolbar' value='yes' />
+                        <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;AI&#47;AIMLJobMarketAnalysis&#47;Dashboard1&#47;1.png' />
+                        <param name='animate_transition' value='yes' />
+                        <param name='display_static_image' value='yes' />
+                        <param name='display_spinner' value='yes' />
+                        <param name='display_overlay' value='yes' />
+                        <param name='display_count' value='yes' />
+                        <param name='language' value='en-US' />
+                        <param name='filter' value='publish=yes' />
+                    </object>
+                </div>
+                <script type='text/javascript'>
+                    var divElement = document.getElementById('viz1760865512952');
+                    var vizElement = divElement.getElementsByTagName('object')[0];
+                    if (divElement.offsetWidth > 800) {
+                        vizElement.style.width='100%';
+                        vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
+                    } else if (divElement.offsetWidth > 500) {
+                        vizElement.style.width='100%';
+                        vizElement.style.height=(divElement.offsetWidth*0.75)+'px';
+                    } else {
+                        vizElement.style.width='100%';
+                        vizElement.style.height='1377px';
+                    }
+                    var scriptElement = document.createElement('script');
+                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+                    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+                </script>
+            </div>
+
+            <!-- Key Insights -->
+            <div class="content-section">
+                <h2 class="section-title">Key Insights Discovered</h2>
+                <div class="section-content">
+                    <p>Through this analysis, I uncovered several critical patterns that shape the AI/ML job market:</p>
+                    
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Most In-Demand Skills</h3>
+                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">🐍 <strong>Python:</strong> Appears in all of the job postings</li>
+                        <li style="margin-bottom: 0.5rem;">☁️ <strong>Cloud Platforms:</strong> AWS is the most common for modern ML deployment</li>
+                        <li style="margin-bottom: 0.5rem;">🗄️ <strong>SQL:</strong> Data querying remains a fundamental requirement across all roles</li>
+                        <li style="margin-bottom: 0.5rem;">🤖 <strong>Machine Learning:</strong> TensorFlow, PyTorch, and scikit-learn dominate the landscape</li>
+                        <li style="margin-bottom: 0.5rem;">📊 <strong>Visualization Tools:</strong> Tableau, Power BI, and matplotlib are highly valued</li>
+                        <li style="margin-bottom: 0.5rem;">🔧 <strong>MLOps Skills:</strong> Docker, Kubernetes, and Airflow increasingly important for production systems</li>
+                    </ul>
+
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Role-Specific Patterns</h3>
+                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">📈 <strong>Data Scientists:</strong> Focus on statistics, A/B testing, and business communication</li>
+                        <li style="margin-bottom: 0.5rem;">⚙️ <strong>ML Engineers:</strong> Emphasize production deployment, scalability, and software engineering</li>
+                        <li style="margin-bottom: 0.5rem;">🧠 <strong>AI Engineers:</strong> Require deep learning, NLP, computer vision, and research skills</li>
+                        <li style="margin-bottom: 0.5rem;">🏗️ <strong>Data Engineers:</strong> Prioritize ETL pipelines, data warehousing, and big data technologies</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Project Impact -->
+            <div class="content-section">
+                <h2 class="section-title">Project Impact & Learnings</h2>
+                <div class="section-content">
+                    <p>This project gave me clarity on my own career path and taught me valuable skills in data processing, analysis, and visualization. More importantly, it demonstrated my ability to:</p>
+                    
+                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">💡 <strong>Identify Real Problems:</strong> Recognized the need for data-driven career guidance</li>
+                        <li style="margin-bottom: 0.5rem;">🔍 <strong>Work with Large Datasets:</strong> Processed 123K+ records efficiently</li>
+                        <li style="margin-bottom: 0.5rem;">🛠️ <strong>Build End-to-End Solutions:</strong> From raw data to interactive dashboard</li>
+                        <li style="margin-bottom: 0.5rem;">📊 <strong>Communicate Insights:</strong> Transformed complex data into actionable visualizations</li>
+                        <li style="margin-bottom: 0.5rem;">🎯 <strong>Think Like a Data Scientist:</strong> Asked questions, explored data, validated findings</li>
+                    </ul>
+
+                    <p>The interactive dashboard makes these insights accessible to anyone, whether you are a student planning your learning path, a professional considering a career switch, or a recruiter understanding market demands.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

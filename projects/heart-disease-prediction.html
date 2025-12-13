@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction | Innocent Makaya</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .project-viewer {
+            min-height: 100vh;
+            background: var(--color-background);
+            color: var(--color-text);
+        }
+
+        .viewer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--color-text);
+            text-decoration: none;
+            margin-bottom: 3rem;
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-button:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: var(--color-surface);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 32px rgba(0, 255, 209, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 2rem;
+            background: var(--color-accent);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-text);
+        }
+
+        .section-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-content ul {
+            list-style: none;
+        }
+
+        .section-content ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            border: 4px solid var(--color-surface);
+        }
+
+        .timeline-content {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: var(--color-surface-light);
+            border-left: 4px solid var(--color-accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: var(--color-accent);
+            font-size: 0.95rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--color-text);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.75rem 1.5rem;
+            background: var(--color-surface-light);
+            color: var(--color-accent);
+            border-radius: 8px;
+            font-weight: 500;
+            border: 1px solid var(--color-accent);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateY(-2px);
+        }
+
+        .highlight-box {
+            background: rgba(0, 255, 209, 0.05);
+            border: 2px solid var(--color-accent);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--color-accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .carousel-wrapper {
+            overflow: hidden;
+            border-radius: 12px;
+            background: var(--color-surface-light);
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 0;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            background: var(--color-surface-light);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .carousel-item:hover {
+            border-color: var(--color-accent);
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            max-height: 600px;
+            object-fit: contain;
+            background: var(--color-background);
+        }
+
+        .carousel-caption {
+            padding: 1.5rem;
+            color: var(--color-text);
+        }
+
+        .carousel-caption h4 {
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .carousel-caption p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 255, 209, 0.2);
+            border: 2px solid var(--color-accent);
+            color: var(--color-accent);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .carousel-nav:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-prev {
+            left: 10px;
+        }
+
+        .carousel-next {
+            right: 10px;
+        }
+
+        .carousel-indicator {
+            text-align: center;
+            padding: 1rem;
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 209, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--color-accent);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            font-size: 1rem;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background: var(--color-surface-light);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid rgba(0, 255, 209, 0.1);
+        }
+
+        .gallery-caption {
+            padding: 1.5rem;
+            color: var(--color-text);
+        }
+
+        .gallery-caption h4 {
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .gallery-caption p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .video-demo-section {
+            background: linear-gradient(135deg, rgba(0, 255, 209, 0.1) 0%, rgba(0, 255, 209, 0.05) 100%);
+            border: 2px solid var(--color-accent);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 40px rgba(0, 255, 209, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-demo-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 209, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .video-demo-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .video-demo-badge {
+            display: inline-block;
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .video-demo-title {
+            font-size: 2rem;
+            color: var(--color-text);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .video-demo-description {
+            font-size: 1.1rem;
+            color: var(--color-text);
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 3px solid var(--color-accent);
+            z-index: 1;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+
+        .video-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--color-text-dark);
+        }
+
+        @media (max-width: 768px) {
+            .viewer-container {
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+            }
+
+            .timeline-marker {
+                left: 5px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-demo-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .video-demo-title {
+                font-size: 1.5rem;
+            }
+
+            .video-demo-description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-viewer">
+        <div class="viewer-container">
+            <a href="../index.html#projects" class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+
+            <div class="project-header">
+                <h1 class="project-title">Heart Disease Prediction Using Machine Learning</h1>
+                <p class="project-subtitle">Leveraging AI to Enable Early Detection and Save Lives</p>
+            </div>
+
+            <!-- Problem Statement -->
+            <div class="content-section">
+                <h2 class="section-title">Problem Statement</h2>
+                <div class="section-content">
+                    <p>According to the World Health Organization, heart disease is the leading cause of death worldwide, claiming over 17 million lives each year. In South Africa, the burden of heart-related illnesses continues to rise due to lifestyle factors, limited access to regular screenings, and late diagnosis.
+                       Traditional diagnostic methods such as ECGs, blood tests, and stress tests are effective but often time-consuming, costly, and not easily accessible in resource-limited settings. This project applies machine learning to predict heart disease risk early, helping improve access to timely diagnosis and preventive care.</p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="content-section">
+                <h2 class="section-title">How It Works</h2>
+                <div class="section-content">
+                    <p>This AI-powered heart disease prediction system uses <strong>machine learning classification algorithms</strong> to analyze 13 critical health indicators and predict the likelihood of heart disease with over 90% accuracy, making early detection accessible to healthcare facilities worldwide.</p>
+                    
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Input Data: 13 Health Indicators</h3>
+                    <p>The model analyzes comprehensive patient health metrics to generate predictions:</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">❤️ <strong>Age:</strong> Patient age as a primary risk factor</li>
+                        <li style="margin-bottom: 0.5rem;">💊 <strong>Cholesterol Levels:</strong> Serum cholesterol measurements</li>
+                        <li style="margin-bottom: 0.5rem;">🩺 <strong>Blood Pressure:</strong> Resting blood pressure readings</li>
+                        <li style="margin-bottom: 0.5rem;">💓 <strong>Heart Rate:</strong> Maximum heart rate achieved during exercise</li>
+                        <li style="margin-bottom: 0.5rem;">📊 <strong>ST Depression (Oldpeak):</strong> Exercise-induced ST segment changes</li>
+                        <li style="margin-bottom: 0.5rem;">🔬 <strong>Additional Indicators:</strong> Chest pain type, fasting blood sugar, ECG results, and more</li>
+                    </ul>
+
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">System Capabilities</h3>
+                    <p>The application provides comprehensive functionality built into a user-friendly platform:</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">90%+ Accuracy</h3>
+                        <p class="feature-description">Random Forest algorithm achieves over 90% prediction accuracy through ensemble learning and careful model optimization.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Instant Real-Time Predictions</h3>
+                        <p class="feature-description">Real-time risk assessment delivered in seconds, enabling rapid clinical decision-making and immediate patient counseling.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Feature Importance Analysis</h3>
+                        <p class="feature-description">Comprehensive data visualization with correlation heatmaps, distribution plots, and feature importance analysis for model interpretability.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Rigorous Model Selection</h3>
+                        <p class="feature-description">Systematically evaluated Logistic Regression, Random Forest, SVM, and KNN to select and optimize the best-performing algorithm.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Optimized Performance</h3>
+                        <p class="feature-description">Feature standardization, stratified data splitting, and ensemble learning techniques ensure robust and reliable predictions.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                <path d="M8 21h8M12 17v4"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Streamlit Web Application</h3>
+                        <p class="feature-description">User-friendly interface designed for healthcare professionals to input patient data and receive instant risk predictions with confidence scores.</p>
+                    </div>
+                </div>
+
+                <div class="section-content" style="margin-top: 2rem;">
+                    <p><strong>Technical Approach:</strong></p>
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Ensemble Learning:</strong> Random Forest combines multiple decision trees for robust predictions</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Feature Standardization:</strong> Normalized data ensures fair contribution from all health indicators</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Stratified Splitting:</strong> Maintains class balance in training and testing sets</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Interpretable Results:</strong> Feature importance analysis shows which factors drive predictions</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Accessible Deployment:</strong> Streamlit makes the model available to any healthcare facility</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Development Process -->
+            <div class="content-section">
+                <h2 class="section-title">Development Process</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">1. Data Collection & Understanding</h3>
+                            <p class="timeline-description">Acquired comprehensive heart disease dataset with 1,000+ patient records containing 13 health indicators. Performed initial exploration to understand data structure, types, and distributions.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">2. Exploratory Data Analysis (EDA)</h3>
+                            <p class="timeline-description">Created comprehensive visualizations including heart disease distribution, age patterns, correlation heatmaps, and comparative analyses of cholesterol, blood pressure, heart rate, and ST depression across disease status. Saved all plots for documentation.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">3. Data Preprocessing & Feature Engineering</h3>
+                            <p class="timeline-description">Separated features from target variable, performed train-test split (80-20) with stratification to maintain class balance, and standardized all numerical features using StandardScaler for optimal model performance.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">4. Model Training & Comparison</h3>
+                            <p class="timeline-description">Trained and evaluated multiple algorithms: Logistic Regression, Random Forest (200 estimators), SVM with RBF kernel, and K-Nearest Neighbors. Systematically compared accuracy scores and classification reports to identify the best performer.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">5. Model Evaluation & Selection</h3>
+                            <p class="timeline-description">Random Forest emerged as the best model with 90%+ accuracy. Generated detailed classification reports and confusion matrix to validate performance. Created model comparison visualization showing accuracy across all algorithms.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">6. Model Persistence</h3>
+                            <p class="timeline-description">Saved the trained Random Forest model using joblib for deployment. Exported model columns to JSON file to ensure correct feature alignment during prediction in the web application.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">7. Streamlit Web Application Development</h3>
+                            <p class="timeline-description">Built interactive web application in PyCharm with multiple pages: Home, Predict (input form with 13 health indicators), Model Insights (feature importance visualization), and About. Implemented probability scoring and risk classification.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">8. Deployment & Testing</h3>
+                            <p class="timeline-description">Deployed the Streamlit application for real-world testing. Validated predictions with various patient profiles to ensure consistent and accurate risk assessments across different health indicator combinations.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Data Analysis Insights -->
+            <div class="content-section">
+                <h2 class="section-title">Key Data Insights</h2>
+                <div class="section-content">
+                    <p>Through comprehensive exploratory data analysis, I uncovered critical patterns that inform the model's predictions:</p>
+                </div>
+
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/heart_disease_distribution.png" alt="Heart Disease Distribution" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Heart Disease Distribution</h4>
+                            <p>The dataset shows a balanced distribution between patients with and without heart disease, with approximately equal representation of both classes. This balanced distribution is crucial for training an unbiased machine learning model that can accurately predict both positive and negative cases.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/age_distribution.png" alt="Age Distribution" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Age Distribution</h4>
+                            <p>The age distribution follows a normal distribution pattern, with most patients falling in the middle-age range. The data shows that the majority of patients in the dataset are between 45-65 years old, which aligns with the typical age range for cardiovascular disease risk assessment.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/age_vs_heart_disease.png" alt="Age vs Heart Disease" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Age vs Heart Disease</h4>
+                            <p>This boxplot reveals that patients with heart disease tend to be slightly older on average compared to those without the condition. The median age for heart disease patients is higher, and there is a clear trend showing increased heart disease prevalence with advancing age, particularly in the 55+ age group.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/cholesterol_vs_heart_disease.png" alt="Cholesterol vs Heart Disease" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Cholesterol Levels vs Heart Disease</h4>
+                            <p>This boxplot shows that cholesterol levels among patients with heart disease are generally more variable compared to those without the condition. While the median cholesterol values are fairly similar between the two groups, heart disease patients display a wider range and more extreme values, indicating that high cholesterol may be a contributing factor in certain cases. The presence of several outliers also suggests that abnormally high cholesterol levels occur more frequently in patients with heart disease.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/resting_bp_s_vs_heart_disease.png" alt="Resting Blood Pressure vs Heart Disease" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Resting Blood Pressure vs Heart Disease</h4>
+                            <p> his boxplot indicates that patients with heart disease generally have slightly higher resting systolic blood pressure compared to those without the condition. The heart disease group also shows greater variability, suggesting that fluctuations or elevated blood pressure levels may be more common among them. Although the difference in median values is not large, the wider spread and presence of outliers in the heart disease group may reflect a link between irregular blood pressure and heart disease risk.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/max_heart_rate_vs_heart_disease.png" alt="Maximum Heart Rate vs Heart Disease" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Maximum Heart Rate vs Heart Disease</h4>
+                            <p>Maximum heart rate achieved during exercise testing reveals important patterns. Patients with heart disease generally show lower maximum heart rates compared to healthy individuals, indicating reduced cardiovascular capacity and exercise tolerance. This metric is a strong predictor in the model.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/oldpeak_vs_heart_disease.png" alt="ST Depression (Oldpeak) vs Heart Disease" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>ST Depression (Oldpeak) vs Heart Disease</h4>
+                            <p>This boxplot reveals that patients with heart disease tend to have higher Oldpeak values compared to those without the condition. The median Oldpeak and overall variability are greater among heart disease patients, indicating more pronounced ST depression during exercise, a common sign of reduced heart function or ischemia. The presence of several high outliers further supports the link between elevated Oldpeak levels and heart disease. This is one of the most significant predictors in the model.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/feature_correlation_heatmap.png" alt="Feature Correlation Heatmap" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Feature Correlation Heatmap</h4>
+                            <p>This feature correlation heatmap shows how different health factors relate to each other in a heart disease prediction project. Most features have weak correlations, meaning they are mostly independent and suitable for machine learning. Age is negatively correlated with maximum heart rate (-0.37), showing that older people tend to have lower heart rates. Chest pain type, ST slope, and exercise angina are more strongly related to the target variable, suggesting they play an important role in predicting heart disease. In contrast, cholesterol, resting blood pressure, and fasting blood sugar show weak relationships and may be less useful for prediction.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/model_comparison.png" alt="Model Comparison" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Model Accuracy Comparison</h4>
+                            <p>This bar chart compares the performance of four different machine learning algorithms tested on the heart disease dataset. Random Forest achieved the highest accuracy at over 90%, outperforming Logistic Regression, SVM, and KNN. This systematic comparison justified the selection of Random Forest as the final model.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Heart Disease Prediction images/confusion_matrix_random_forest.png" alt="Confusion Matrix" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Confusion Matrix - Random Forest</h4>
+                            <p>The confusion matrix provides detailed insight into the model's prediction performance, showing true positives, true negatives, false positives, and false negatives. The high values along the diagonal indicate strong classification accuracy, with minimal misclassifications demonstrating the model's reliability for clinical use.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Web Application -->
+            <div class="content-section">
+                <h2 class="section-title">Streamlit Web Application</h2>
+                <div class="section-content">
+                    <p>After training and evaluating the models, I saved the best-performing Random Forest model and developed a user-friendly web interface using Streamlit in PyCharm. This makes the powerful AI model accessible to medical professionals without requiring technical expertise.</p>
+                </div>
+
+                <div class="carousel-container">
+                    <button class="carousel-nav carousel-prev" onclick="previousSlide()">❮</button>
+                    <div class="carousel-wrapper">
+                        <div class="carousel-track" id="carouselTrack">
+                            <div class="carousel-item">
+                                <img src="../Heart Disease Streamlit Images/Home Page.png" alt="Home Page" class="carousel-img">
+                                <div class="carousel-caption">
+                                    <h4>Home Page</h4>
+                                    <p>The landing page provides an overview of the heart disease prediction application with a clear introduction to the project, its purpose, and how to navigate through different sections. Users are welcomed with an intuitive interface that explains the capabilities of the AI model.</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="../Heart Disease Streamlit Images/Predict Page.png" alt="Predict Page" class="carousel-img">
+                                <div class="carousel-caption">
+                                    <h4>Patient Data Input</h4>
+                                    <p>The prediction page features a comprehensive input form with 13 number input fields for all health indicators including age, cholesterol levels, blood pressure, heart rate, and other critical cardiovascular metrics. Users can easily enter patient data and proceed to generate predictions.</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="../Heart Disease Streamlit Images/Predict Button and Score.png" alt="Prediction Results" class="carousel-img">
+                                <div class="carousel-caption">
+                                    <h4>Instant Risk Assessment Results</h4>
+                                    <p>After entering patient data, the system delivers real-time predictions with clear risk classification (High/Low risk) and confidence probability percentages. The results are displayed with color-coded alerts to enable rapid clinical decision-making and patient counseling.</p>
+                                </div>
+                            </div>
+
+                            <div class="carousel-item">
+                                <img src="../Heart Disease Streamlit Images/About Page.png" alt="About Page" class="carousel-img">
+                                <div class="carousel-caption">
+                                    <h4>Model Insights & Information</h4>
+                                    <p>The About section provides detailed information about the machine learning model, including accuracy metrics, feature importance analysis, and the methodologies used to train and optimize the Random Forest algorithm. This helps users understand the reliability and scientific basis of predictions.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-nav carousel-next" onclick="nextSlide()">❯</button>
+                </div>
+                <div class="carousel-indicator" id="carouselIndicator">1 / 4</div>
+            </div>
+
+            <!-- Impact & Applications -->
+            <div class="content-section">
+                <h2 class="section-title">Impact & Real-World Applications</h2>
+                <div class="section-content">
+                    <h3 style="color: var(--color-accent); margin-bottom: 1rem; font-size: 1.5rem;">Clinical Benefits</h3>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Early Detection:</strong> Identifies at-risk patients before cardiac events occur</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Rapid Assessment:</strong> Instant predictions enable quick clinical decision-making</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Accessible Screening:</strong> Simple tool for primary care and underserved areas</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Data-Driven Decisions:</strong> Objective risk assessment based on 13 health indicators</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Cost-Effective:</strong> Reduces need for expensive preliminary testing</li>
+                    </ul>
+
+                    <h3 style="color: var(--color-accent); margin-bottom: 1rem; font-size: 1.5rem;">Potential Use Cases</h3>
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">🏥 <strong>Primary Care Clinics:</strong> First-line risk screening tool for routine checkups</li>
+                        <li style="margin-bottom: 0.5rem;">🌍 <strong>Rural Healthcare:</strong> Accessible screening where cardiologists are scarce</li>
+                        <li style="margin-bottom: 0.5rem;">🔬 <strong>Research Institutions:</strong> Large-scale cardiovascular risk analysis</li>
+                        <li style="margin-bottom: 0.5rem;">📚 <strong>Medical Education:</strong> Teaching tool for understanding heart disease risk factors</li>
+                        <li style="margin-bottom: 0.5rem;">🚑 <strong>Emergency Departments:</strong> Quick risk assessment for chest pain patients</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Technologies Used -->
+            <div class="content-section">
+                <h2 class="section-title">Technologies & Tools</h2>
+                <div class="tech-stack">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">scikit-learn</span>
+                    <span class="tech-tag">Random Forest</span>
+                    <span class="tech-tag">Pandas</span>
+                    <span class="tech-tag">NumPy</span>
+                    <span class="tech-tag">Matplotlib</span>
+                    <span class="tech-tag">Seaborn</span>
+                    <span class="tech-tag">Streamlit</span>
+                    <span class="tech-tag">PyCharm</span>
+                    <span class="tech-tag">Jupyter Notebook</span>
+                    <span class="tech-tag">Joblib</span>
+                    <span class="tech-tag">Machine Learning</span>
+                    <span class="tech-tag">Classification</span>
+                    <span class="tech-tag">EDA</span>
+                </div>
+            </div>
+
+            <!-- Future Enhancements -->
+            <div class="content-section">
+                <h2 class="section-title">Future Enhancements</h2>
+                <div class="section-content">
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 1rem;">🧠 <strong>Deep Learning Integration:</strong> Explore neural networks for potentially higher accuracy</li>
+                        <li style="margin-bottom: 1rem;">⌚ <strong>Real-Time Monitoring:</strong> Integrate with wearable devices for continuous health tracking</li>
+                        <li style="margin-bottom: 1rem;">🔍 <strong>Explainable AI:</strong> Implement SHAP or LIME for more detailed prediction explanations</li>
+                        <li style="margin-bottom: 1rem;">❤️ <strong>Multi-Disease Prediction:</strong> Expand to predict other cardiovascular conditions</li>
+                        <li style="margin-bottom: 1rem;">📱 <strong>Mobile Application:</strong> Develop iOS/Android apps for greater accessibility</li>
+                        <li style="margin-bottom: 1rem;">☁️ <strong>Cloud Deployment:</strong> Host on AWS/Azure for wider healthcare facility access</li>
+                        <li style="margin-bottom: 1rem;">🏥 <strong>Clinical Validation:</strong> Partner with healthcare institutions for real-world testing</li>
+                        <li style="margin-bottom: 1rem;">📊 <strong>Patient History Tracking:</strong> Implement longitudinal risk monitoring over time</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Carousel functionality
+        let currentSlide = 0;
+        const totalSlides = 4;
+
+        function showSlide(n) {
+            const track = document.getElementById('carouselTrack');
+            const indicator = document.getElementById('carouselIndicator');
+            
+            if (n >= totalSlides) {
+                currentSlide = 0;
+            } else if (n < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = n;
+            }
+            
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            indicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Smooth scroll behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any interactive features here
+            console.log('Breast Cancer Detection project page loaded');
+        });
+    </script>
+</body>
+</html>
