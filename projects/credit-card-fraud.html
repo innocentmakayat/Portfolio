@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Card Fraud Detection | Innocent Makaya</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .project-viewer {
+            min-height: 100vh;
+            background: var(--color-background);
+            color: var(--color-text);
+        }
+
+        .viewer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--color-text);
+            text-decoration: none;
+            margin-bottom: 3rem;
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-button:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: var(--color-surface);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 32px rgba(0, 255, 209, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 2rem;
+            background: var(--color-accent);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-text);
+        }
+
+        .section-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-content ul {
+            list-style: none;
+        }
+
+        .section-content ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            border: 4px solid var(--color-surface);
+        }
+
+        .timeline-content {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: var(--color-surface-light);
+            border-left: 4px solid var(--color-accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: var(--color-accent);
+            font-size: 0.95rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--color-text);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.75rem 1.5rem;
+            background: var(--color-surface-light);
+            color: var(--color-accent);
+            border-radius: 8px;
+            font-weight: 500;
+            border: 1px solid var(--color-accent);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateY(-2px);
+        }
+
+        .highlight-box {
+            background: rgba(0, 255, 209, 0.05);
+            border: 2px solid var(--color-accent);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h3 {
+            color: var(--color-accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 209, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--color-accent);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            font-size: 1rem;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            background: var(--color-surface-light);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid rgba(0, 255, 209, 0.1);
+        }
+
+        .gallery-caption {
+            padding: 1.5rem;
+            color: var(--color-text);
+        }
+
+        .gallery-caption h4 {
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .gallery-caption p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .viewer-container {
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+            }
+
+            .timeline-marker {
+                left: 5px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-viewer">
+        <div class="viewer-container">
+            <a href="../index.html#projects" class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+
+            <div class="project-header">
+                <h1 class="project-title">Credit Card Fraud Detection Using Machine Learning</h1>
+                <p class="project-subtitle">Protecting Financial Transactions with Advanced AI-Powered Anomaly Detection</p>
+            </div>
+
+            <!-- Problem Statement -->
+            <div class="content-section">
+                <h2 class="section-title">Problem Statement</h2>
+                <div class="section-content">
+                    <p>Credit card fraud is increasing worldwide, and traditional rule-based systems are no longer enough to stop it. Millions of transactions happen every day, so manual checking is impossible. Fraudsters constantly change their methods, and only a tiny number of transactions are fraudulent, which makes detection very challenging.
+
+Financial institutions also struggle with accuracy: too many false positives annoy real customers, while missed fraud leads to money loss and reduced trust.
+
+Because fraud happens quickly, detection must happen in real time. This requires analysing complex patterns instantly. There is a need for a smart, automated system that can learn from past data, adapt to new fraud patterns, and accurately detect fraud with fewer false alarms.</p>
+                    
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="content-section">
+                <h2 class="section-title">How It Works</h2>
+                <div class="section-content">
+                    <p>This AI-powered fraud detection system uses <strong>ensemble machine learning algorithms</strong> to analyze transaction patterns and identify fraudulent activities with high precision. Trained on over 280,000 real-world credit card transactions, the system learns complex fraud patterns that traditional rule-based systems miss.</p>
+                    
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Data &amp; Feature Overview</h3>
+                    <p>This solution evaluates each transaction’s <strong>Time</strong>, <strong>Amount</strong>, and <strong>28 anonymized PCA components (V1–V28)</strong>, then predicts whether it is fraudulent or legitimate. During training, <strong>SMOTE</strong> balances the highly-imbalanced dataset of 284 K+ transactions, enabling the model to learn subtle fraud patterns without over-flagging legitimate activity.</p>
+
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Technical Approach</h3>
+                    <p><strong>Model Selection:</strong> Compared Logistic Regression, Random Forest, and XGBoost. Random Forest delivered the best F1-score (0.84), balancing precision (minimizing false alarms) and recall (catching actual fraud).</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Handling Class Imbalance:</strong> Applied SMOTE (Synthetic Minority Over-sampling Technique) to generate synthetic fraud samples during training, preventing the model from defaulting to "all transactions are legitimate."</p>
+                    
+                    <p style="margin-top: 1rem;"><strong>Data Preparation:</strong> Standardized Time and Amount features, used stratified train-test splitting to preserve fraud ratios, and evaluated performance with Precision, Recall, F1-score, ROC-AUC, and confusion matrices for transparency.
+                </div>
+            </div>
+
+            <!-- Model Performance -->
+            <div class="content-section">
+                <h2 class="section-title">Model Performance</h2>
+                <div class="section-content">
+                    <p>The Random Forest model demonstrates excellent performance in detecting fraudulent credit card transactions. Here are the final performance metrics on the test set:</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">0.8454</div>
+                        <div class="stat-label">Precision</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0.8367</div>
+                        <div class="stat-label">Recall</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0.8410</div>
+                        <div class="stat-label">F1-Score</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results & Visualizations -->
+            <div class="content-section">
+                <h2 class="section-title">Results & Visualizations</h2>
+                <div class="section-content">
+                    <p>Comprehensive visualizations demonstrate the model's performance and the challenges overcome:</p>
+                </div>
+
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="../Credit Card Fraud Detection Images/class_distribution.png" alt="Class Distribution" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Class Distribution - Extreme Imbalance</h4>
+                            <p>This visualization reveals the extreme class imbalance in the dataset: only 0.17% (492 transactions) are fraudulent compared to 99.83% (284,315 transactions) that are legitimate. This massive imbalance is the primary challenge in fraud detection, as models trained on this data would naturally bias toward predicting all transactions as legitimate. SMOTE was essential to address this issue.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Credit Card Fraud Detection Images/model_comparison.png" alt="Model Comparison" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Model Performance Comparison</h4>
+                            <p>This bar chart compares Precision, Recall, and F1-score across three algorithms: Logistic Regression, Random Forest, and XGBoost. Random Forest achieved the highest F1-score (0.84), demonstrating the best balance between precision (minimizing false alarms) and recall (catching actual frauds). The comparison shows that ensemble methods outperform linear models for this complex fraud detection task.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Credit Card Fraud Detection Images/confusion_matrix_random_forest.png" alt="Confusion Matrix" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>Confusion Matrix - Random Forest</h4>
+                            <p>The confusion matrix provides detailed insight into the model's predictions. True Negatives (correctly identified legitimate transactions) and True Positives (correctly identified frauds) dominate the diagonal, indicating strong performance. False Positives (legitimate transactions flagged as fraud) and False Negatives (missed frauds) are minimized, demonstrating the model's reliability for real-world deployment.</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item">
+                        <img src="../Credit Card Fraud Detection Images/roc_curve_random_forest.png" alt="ROC Curve" class="gallery-img">
+                        <div class="gallery-caption">
+                            <h4>ROC Curve - Random Forest</h4>
+                            <p>The Receiver Operating Characteristic (ROC) curve plots the True Positive Rate against the False Positive Rate across all classification thresholds. The curve hugs the top-left corner with a high AUC (Area Under Curve) score, indicating excellent discrimination ability. This means the model can effectively distinguish between fraudulent and legitimate transactions across various decision thresholds, providing flexibility for deployment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact & Applications -->
+            <div class="content-section">
+                <h2 class="section-title">Impact & Real-World Applications</h2>
+                <div class="section-content">
+                    <h3 style="color: var(--color-accent); margin-bottom: 1rem; font-size: 1.5rem;">Financial Benefits</h3>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Loss Prevention:</strong> Identifies fraudulent transactions before they complete, saving millions</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Real-Time Detection:</strong> Instant predictions enable immediate transaction blocking</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Reduced False Positives:</strong> Balanced precision minimizes legitimate transaction declines</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Scalable Solution:</strong> Handles millions of transactions without performance degradation</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Customer Trust:</strong> Protects cardholders and maintains confidence in payment systems</li>
+                    </ul>
+
+                    <h3 style="color: var(--color-accent); margin-bottom: 1rem; font-size: 1.5rem;">Potential Use Cases</h3>
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">🏦 <strong>Banks & Financial Institutions:</strong> Real-time fraud monitoring for credit card transactions</li>
+                        <li style="margin-bottom: 0.5rem;">🛒 <strong>E-Commerce Platforms:</strong> Protect online merchants from fraudulent purchases</li>
+                        <li style="margin-bottom: 0.5rem;">💳 <strong>Payment Processors:</strong> Integrate fraud detection into payment gateways</li>
+                        <li style="margin-bottom: 0.5rem;">📊 <strong>Risk Analytics Teams:</strong> Analyze fraud patterns and trends for strategy development</li>
+                        <li style="margin-bottom: 0.5rem;">🔒 <strong>Security Operations:</strong> Monitor and investigate suspicious transaction patterns</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Technologies Used -->
+            <div class="content-section">
+                <h2 class="section-title">Technologies & Tools</h2>
+                <div class="tech-stack">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">scikit-learn</span>
+                    <span class="tech-tag">Random Forest</span>
+                    <span class="tech-tag">XGBoost</span>
+                    <span class="tech-tag">SMOTE</span>
+                    <span class="tech-tag">imbalanced-learn</span>
+                    <span class="tech-tag">Pandas</span>
+                    <span class="tech-tag">NumPy</span>
+                    <span class="tech-tag">Matplotlib</span>
+                    <span class="tech-tag">Seaborn</span>
+                    <span class="tech-tag">Jupyter Notebook</span>
+                    <span class="tech-tag">Joblib</span>
+                    <span class="tech-tag">Kaggle</span>
+                    <span class="tech-tag">Classification</span>
+                </div>
+            </div>
+
+            <!-- Future Enhancements -->
+            <div class="content-section">
+                <h2 class="section-title">Future Enhancements</h2>
+                <div class="section-content">
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 1rem;">⚡ <strong>Real-Time API Deployment:</strong> Build REST API for instant fraud scoring in production environments</li>
+                        <li style="margin-bottom: 1rem;">🔍 <strong>Explainable AI:</strong> Add SHAP values to show why specific transactions are flagged as fraudulent</li>
+                        <li style="margin-bottom: 1rem;">🧠 <strong>Deep Learning Models:</strong> Test LSTM/Transformer architectures to capture temporal patterns across transaction sequences</li>
+                        <li style="margin-bottom: 1rem;">🔄 <strong>Adaptive Learning:</strong> Implement online learning to continuously update the model as new fraud tactics emerge</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scroll behavior
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any interactive features here
+            console.log('Credit Card Fraud Detection project page loaded');
+        });
+    </script>
+</body>
+</html>

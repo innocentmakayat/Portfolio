@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Pillbox for TB Patients | Innocent Makaya</title>
+    <link rel="stylesheet" href="../styles.css">
+    <!-- Import model-viewer -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        .project-viewer {
+            min-height: 100vh;
+            background: var(--color-background);
+            color: var(--color-text);
+        }
+
+        .viewer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--color-text);
+            text-decoration: none;
+            margin-bottom: 3rem;
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-button:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: var(--color-surface);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 32px rgba(0, 255, 209, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 2rem;
+            background: var(--color-accent);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-text);
+        }
+
+        .section-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-content ul {
+            list-style: none;
+        }
+
+        .section-content ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 209, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--color-accent);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            font-size: 1rem;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            border: 4px solid var(--color-surface);
+        }
+
+        .timeline-content {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 600px;
+            border-radius: 16px;
+            border: 2px solid var(--color-accent);
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-light) 100%);
+        }
+
+        .loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--color-accent);
+            font-size: 1.2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--color-accent);
+            transform: scale(1.02);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: auto;
+            min-height: 250px;
+            object-fit: contain;
+            display: block;
+            background: var(--color-surface-light);
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            color: var(--color-accent);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .component-item {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--color-accent);
+            transition: all 0.3s ease;
+        }
+
+        .component-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 16px rgba(0, 255, 209, 0.2);
+        }
+
+        .component-name {
+            font-size: 1.1rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .component-description {
+            font-size: 0.95rem;
+            color: var(--color-text);
+            line-height: 1.5;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .app-showcase {
+            background: linear-gradient(135deg, rgba(0, 255, 209, 0.05) 0%, rgba(0, 255, 209, 0.02) 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        .app-screens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .phone-mockup {
+            position: relative;
+            background: #1a1a1a;
+            border-radius: 30px;
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .phone-mockup:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 255, 209, 0.3);
+        }
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 9/19.5;
+            border-radius: 20px;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .phone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .screen-label {
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .screen-description {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: var(--color-text);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            opacity: 0.8;
+        }
+
+        .app-features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .app-feature-item {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--color-accent);
+            transition: all 0.3s ease;
+        }
+
+        .app-feature-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 16px rgba(0, 255, 209, 0.2);
+        }
+
+        .app-feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-feature-title {
+            font-size: 1.1rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .app-feature-desc {
+            font-size: 0.95rem;
+            color: var(--color-text);
+            line-height: 1.5;
+        }
+
+        .design-note {
+            background: rgba(0, 255, 209, 0.05);
+            border: 2px solid var(--color-accent);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            animation: glow-subtle 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes glow-subtle {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(0, 255, 209, 0.3), inset 0 0 15px rgba(0, 255, 209, 0.05);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(0, 255, 209, 0.5), inset 0 0 20px rgba(0, 255, 209, 0.1);
+            }
+        }
+
+        .design-note::before {
+            content: '💡';
+            position: absolute;
+            top: -12px;
+            left: 2rem;
+            font-size: 1.5rem;
+            background: var(--color-surface);
+            padding: 0 0.5rem;
+        }
+
+        .design-note-title {
+            color: var(--color-accent);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .design-note-text {
+            color: var(--color-text);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            .app-screens-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .design-note::before {
+                left: 1rem;
+            }
+        }
+
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .flow-step {
+            background: var(--color-surface-light);
+            padding: 1.25rem;
+            border-radius: 10px;
+            border-top: 3px solid var(--color-accent);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 255, 209, 0.2);
+        }
+
+        .flow-step-number {
+            width: 36px;
+            height: 36px;
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(0, 255, 209, 0.3);
+            margin: 0 auto 0.75rem;
+        }
+
+        .flow-step-title {
+            font-size: 0.95rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .flow-step-description {
+            font-size: 0.8rem;
+            color: var(--color-text);
+            line-height: 1.4;
+        }
+
+        @media (max-width: 1200px) {
+            .flow-steps {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .flow-steps {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .flow-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .labeled-diagram {
+            position: relative;
+            margin-top: 2rem;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--color-accent);
+        }
+
+        .labeled-diagram img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .diagram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .diagram-item {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 255, 209, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .diagram-item:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .diagram-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .diagram-title {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .diagram-description {
+            font-size: 0.95rem;
+            color: var(--color-text);
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .design-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: start;
+        }
+
+        .design-item {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid rgba(0, 255, 209, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .design-item:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .design-item h3 {
+            color: var(--color-accent);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .design-item p {
+            color: var(--color-text);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .design-item model-viewer {
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            border: 2px solid var(--color-accent);
+            background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-light) 100%);
+        }
+
+        .labeled-diagram-img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 2px solid var(--color-accent);
+            background: #fff;
+            padding: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .design-showcase {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .design-item model-viewer {
+                height: 400px;
+            }
+        }
+
+        .tech-tag {
+            padding: 0.75rem 1.5rem;
+            background: var(--color-surface-light);
+            color: var(--color-accent);
+            border-radius: 8px;
+            font-weight: 500;
+            border: 1px solid var(--color-accent);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .viewer-container {
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            model-viewer {
+                height: 400px;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+            }
+
+            .timeline-marker {
+                left: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-viewer">
+        <div class="viewer-container">
+            <a href="../index.html#projects" class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+
+            <div class="project-header">
+                <h1 class="project-title">Smart Pillbox for TB Patients in South Africa</h1>
+                <p class="project-subtitle">Addressing Medication Non-Adherence Through Modular IoT Technology</p>
+            </div>
+
+            <!-- Problem Statement -->
+            <div class="content-section">
+                <h2 class="section-title">Problem Statement</h2>
+                <div class="section-content">
+                    <p>Medication non-adherence is a major challenge for tuberculosis (TB) patients in South Africa. TB treatment requires taking several pills every day at the right time and in the right amount, which many patients find difficult to manage. Long treatment periods, side effects, and having to keep track of multiple medications make the problem even worse.
+
+When patients miss doses or take their medication incorrectly, it can lead to treatment failure, drug resistance, ongoing spread of TB, and higher death rates. There is a strong need for solutions that help patients follow their medication schedules more easily and improve treatment outcomes.</p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="content-section">
+                <h2 class="section-title">How It Works</h2>
+                <div class="section-content">
+                    <p>This smart pillbox follows a <strong>modular approach</strong>, designed to be flexible, affordable, and adaptable to diverse patient needs and circumstances across South Africa.</p>
+                    
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Core Module</h3>
+                    <p>The core module provides essential functionality that every patient needs:</p>
+                    <ul style="margin-left: 2rem; margin-bottom: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">⚡ <strong>Medication Reminders:</strong> Automated alerts at scheduled times</li>
+                        <li style="margin-bottom: 0.5rem;">📊 <strong>Dispensing Detection:</strong> Sensors detect when medication is taken</li>
+                        <li style="margin-bottom: 0.5rem;">🔔 <strong>Refill Alerts:</strong> Notifications when medication is running low</li>
+                        <li style="margin-bottom: 0.5rem;">🔋 <strong>Rechargeable Battery:</strong> Long-lasting power supply</li>
+                        <li style="margin-bottom: 0.5rem;">💾 <strong>Local Data Storage:</strong> Events stored on memory card for healthcare professional review</li>
+                        <li style="margin-bottom: 0.5rem;">🔌 <strong>Expansion Ports:</strong> Connectors for optional modules</li>
+                    </ul>
+
+                    <h3 style="color: var(--color-accent); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">Optional Modules</h3>
+                    <p>Patients can customize their device by adding optional modules based on their specific needs and circumstances:</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                                <path d="M8 21h8M12 17v4"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">LCD Screen Module</h3>
+                        <p class="feature-description">Displays medication instructions, dosage information, and reminders visually. Ideal for patients who prefer reading instructions.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">GSM Module</h3>
+                        <p class="feature-description">Enables real-time tracking via SMS. Healthcare professionals receive instant notifications when medication is taken or missed. Perfect for areas with cellular coverage.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 18h.01M8 21h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Bluetooth Module</h3>
+                        <p class="feature-description">Connects to smartphones for app-based monitoring and reminders. Allows patients to track their adherence history on their mobile device.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Solar Module</h3>
+                        <p class="feature-description">Solar charging capability for rural areas with unreliable electricity. Ensures the device remains operational even without grid power.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20h.01M8.5 16.5a5 5 0 0 1 7 0M5 12.5a10 10 0 0 1 14 0M2 8.5a15 15 0 0 1 20 0"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">WiFi Module</h3>
+                        <p class="feature-description">Internet connectivity for cloud-based data synchronization and remote monitoring. Suitable for urban areas with WiFi access.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18V5l12-2v13M6 15v6M15 18v-2"/>
+                                <circle cx="6" cy="18" r="3"/>
+                                <circle cx="15" cy="16" r="3"/>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Speaker Module</h3>
+                        <p class="feature-description">Audio instructions and reminders in preferred language. Essential for patients who struggle with reading or have visual impairments.</p>
+                    </div>
+                </div>
+
+                <div class="section-content" style="margin-top: 2rem;">
+                    <p><strong>Benefits of Modular Design:</strong></p>
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Cost-Effective:</strong> Patients only purchase modules they need</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Widespread Accessibility:</strong> Adaptable to diverse socioeconomic and geographic contexts</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Personalized:</strong> Each patient configures their device based on preferences and circumstances</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Scalable:</strong> Easy to upgrade or add features as needs change</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Reduced Waste:</strong> No unnecessary built-in features that go unused</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Development Process -->
+            <div class="content-section">
+                <h2 class="section-title">Development Process</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">1. Schematic Design</h3>
+                            <p class="timeline-description">Designed the electronic schematic using KiCad software.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">2. Breadboard Prototyping</h3>
+                            <p class="timeline-description">Built initial prototype using a breadboard for testing circuit connections and validating the design before committing to Printed Circuit Board (PCB) fabrication.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">3. ESP32 Programming</h3>
+                            <p class="timeline-description">Programmed the ESP32 microcontroller using Arduino Integrated Development Environment (IDE), implementing medication reminder logic, sensor integration, and module communication protocols.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">4. PCB Design</h3>
+                            <p class="timeline-description">Designed custom printed circuit boards in KiCad, optimizing layout for compact size, reliable connections, and easy assembly of modular components.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">5. Mechanical Design</h3>
+                            <p class="timeline-description">Created 3D models and mechanical enclosure using Autodesk Inventor, ensuring proper fit for electronics, user-friendly access to medication, and modular port placement.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">6. Assembly & Integration</h3>
+                            <p class="timeline-description">Assembled the PCB components, integrated the circuit into the custom-designed casing, and tested all hardware functionality including sensors and module connections.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">7. Android Application Development</h3>
+                            <p class="timeline-description">Developed companion Android application using Android Studio and Java, providing user interface for medication tracking, reminders management, and adherence history visualization.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">8. Database Design</h3>
+                            <p class="timeline-description">Designed and implemented the database using Google Sheets with JavaScript for data management, enabling easy access for healthcare professionals and cost-effective cloud storage.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3D Design Section -->
+            <div class="content-section">
+                <h2 class="section-title">3D Design & Visualization</h2>
+                <div class="section-content">
+                    <p>The mechanical design was created in Autodesk Inventor, featuring a modular architecture with expansion ports for optional modules. The design prioritizes ease of use, durability, and accessibility for TB patients.</p>
+                </div>
+
+                <div class="design-note">
+                    <h3 class="design-note-title">Design Note</h3>
+                    <p class="design-note-text">While TB patients typically require multiple medications daily, some cases involve single daily doses. This prototype was developed with one compartment to validate the feasibility of a modular architecture. In practice, additional compartments can be seamlessly integrated as needed. The primary objective was to demonstrate that a scalable, modular design approach is both practical and effective for medication dispensing systems.</p>
+                </div>
+
+                <!-- Side-by-side: 3D Model & Labeled Diagram -->
+                <div class="design-showcase">
+                    <div class="design-item">
+                        <h3>🎨 Labeled Design</h3>
+                        <p>Technical drawing with component labels from Autodesk Inventor</p>
+                        <img src="../Smart Pillbox Images/Labelled Pillbox.png" alt="Labeled Smart Pillbox Design" class="labeled-diagram-img" loading="lazy">
+                    </div>
+
+                    <div class="design-item">
+                        <h3>🔄 Interactive 3D Model</h3>
+                        <p>Rotate, zoom, and explore the pillbox from all angles</p>
+                        <model-viewer 
+                            src="../models/smart_pillbox.glb"
+                            alt="3D Smart Pillbox"
+                            camera-controls
+                            auto-rotate
+                            shadow-intensity="0.8"
+                            shadow-softness="0.7"
+                            exposure="0.8"
+                            environment-image="legacy"
+                            loading="eager"
+                            ar>
+                            <div class="loading-text" slot="poster">Loading 3D Model...</div>
+                        </model-viewer>
+                    </div>
+                </div>
+
+                <!-- Prototype Images Gallery -->
+                <div class="section-content" style="margin-top: 3rem;">
+                    <h3 style="color: var(--color-accent); font-size: 1.5rem; margin-bottom: 1rem;">Prototype Images</h3>
+                    <p>Physical prototypes showcasing different module configurations:</p>
+                </div>
+
+                <div class="design-note" style="margin-bottom: 2rem;">
+                    <h3 class="design-note-title">Prototype Note</h3>
+                    <p class="design-note-text">This is the initial prototype developed to test the concept. Further improvements can be made to make it smaller and more compact in future iterations.</p>
+                </div>
+                
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="../Smart Pillbox Images/Front_No_Screen.jpg" alt="Smart Pillbox Front View without Screen" class="gallery-img" loading="lazy">
+                        <div class="screen-label">Core Module</div>
+                        <div class="screen-description">The core module with no optional modules plugged in, providing the most essential functionality for medication reminders and dispensing detection.</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../Smart Pillbox Images/Front_With_Screen.jpg" alt="Smart Pillbox Front View with Screen" class="gallery-img" loading="lazy">
+                        <div class="screen-label">Core Module + LCD Display</div>
+                        <div class="screen-description">The core module with an optional LCD display plugged in for patients who prefer visual medication instructions and reminders.</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../Smart Pillbox Images/Back_No_GSM.jpg" alt="Smart Pillbox Back View without GSM" class="gallery-img" loading="lazy">
+                        <div class="screen-label">Back View - No GSM</div>
+                        <div class="screen-description">Back view showing the core module and the GSM module port without the optional GSM module plugged in, suitable for patients who don't require real-time SMS monitoring.</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="../Smart Pillbox Images/Back_With_GSM.jpg" alt="Smart Pillbox Back View with GSM" class="gallery-img" loading="lazy">
+                        <div class="screen-label">Back View + GSM Module</div>
+                        <div class="screen-description">Back view with the optional GSM module plugged in, enabling real-time monitoring and SMS notifications to healthcare providers.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Flow -->
+            <div class="content-section">
+                <h2 class="section-title">System Flow</h2>
+                <div class="section-content">
+                    <p>Here's the complete step-by-step process of how the Smart Pillbox system works from medication reminder to adherence tracking:</p>
+                </div>
+
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="flow-step-number">1</div>
+                        <h3 class="flow-step-title">⏰ Reminder Triggered</h3>
+                        <p class="flow-step-description">Buzzer and LED alert patient</p>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-number">2</div>
+                        <h3 class="flow-step-title">📱 App Notification</h3>
+                        <p class="flow-step-description">Push notification to smartphone.For patients with mobile phones.</p>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-number">3</div>
+                        <h3 class="flow-step-title">💊 Dispense Pill</h3>
+                        <p class="flow-step-description">Rotate knob to dispense one pill at a time</p>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-number">4</div>
+                        <h3 class="flow-step-title">🔍 Detection</h3>
+                        <p class="flow-step-description">Laser and Light Dependent Resistor (LDR) detect pill dispensing</p>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-number">5</div>
+                        <h3 class="flow-step-title">💾 Local Logging</h3>
+                        <p class="flow-step-description">Medication intake events saved to SD card with timestamp</p>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-number">6</div>
+                        <h3 class="flow-step-title">📡 Remote Monitoring</h3>
+                        <p class="flow-step-description">SMS or cloud notification sent to healthcare provider or caregiver for patients using the optional GSM module and WiFi module</p>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-number">7</div>
+                        <h3 class="flow-step-title">📊 App Update</h3>
+                        <p class="flow-step-description">Adherence calendar and adherence points updated</p>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="flow-step-number">8</div>
+                        <h3 class="flow-step-title">🏆 Complete</h3>
+                        <p class="flow-step-description">Then the cycle repeats for the next scheduled dose</p>
+                    </div>
+                </div>
+
+                <div class="section-content" style="margin-top: 2rem; background: rgba(0, 255, 209, 0.05); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--color-accent);">
+                    <p style="font-size: 1.05rem; margin: 0;">Pills are stacked vertically in the compartment. When the patient rotates the knob on the front, it dispenses <strong>one pill at a time</strong> through a controlled mechanism. A <strong>laser and LDR (Light Dependent Resistor)</strong> detection system ensures each pill is accurately counted, preventing both underdosing and overdosing.</p>
+                </div>
+            </div>
+
+            <!-- Android App Showcase -->
+            <div class="content-section">
+                <div class="app-showcase">
+                    <h3 style="color: var(--color-accent); font-size: 1.8rem; margin-bottom: 1rem; text-align: center;">📱 Companion Android Application</h3>
+                    <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem;">Extending the smart pillbox ecosystem to smartphones, making medication adherence accessible to patients with mobile devices. Developed using Android Studio and Java with Google Sheets as the cloud database.</p>
+                    
+                    <div class="section-content">
+                        <h4 style="color: var(--color-accent); font-size: 1.3rem; margin-bottom: 1rem;">Why a Mobile App?</h4>
+                        <p>The Android application makes the Smart Pillbox system <strong>widespread and accessible</strong> to patients who own smartphones. It provides additional features beyond the hardware device, including visual adherence tracking, educational resources, appointment management, and community support, all in the patient's preferred language.</p>
+                    </div>
+
+                    <!-- App Screenshots -->
+                    <h4 style="color: var(--color-accent); font-size: 1.3rem; margin-top: 2.5rem; margin-bottom: 1.5rem; text-align: center;">App Screens</h4>
+                    <div class="app-screens-grid">
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Landing Page.jpg" alt="Landing Page" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Landing Page</div>
+                            <div class="screen-description">Welcoming experience introducing patients to the app</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Login Page.jpg" alt="Login Page" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Login</div>
+                            <div class="screen-description">Secure authentication for patients and healthcare professionals</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Language Selection Page.jpg" alt="Language Selection" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Language Selection</div>
+                            <div class="screen-description">Choose preferred language for accessibility</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Home Page.jpg" alt="Home Page" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Home Dashboard</div>
+                            <div class="screen-description">Today's schedule, adherence points, full schedule, and motivational messages</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Dashboard Page.jpg" alt="Dashboard" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Features Dashboard</div>
+                            <div class="screen-description">Access to adherence history, side effects reporting, educational content, appointments and support groups</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Full Schedule Page.jpg" alt="Full Schedule" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Full Schedule</div>
+                            <div class="screen-description">Complete medication schedule with times and dosages</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Adherence History Page.jpg" alt="Adherence History" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Adherence History</div>
+                            <div class="screen-description">Calendar view: green dots = taken, red dots = missed doses</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Side Effect Reporting Page.jpg" alt="Side Effect Reporting" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Side Effect Reporting</div>
+                            <div class="screen-description">Report and track medication side effects</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Educational Resources Page.jpg" alt="Educational Resources" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Educational Content</div>
+                            <div class="screen-description">Learn about TB treatment and medication</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Appointments Page.jpg" alt="Appointments" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Appointments</div>
+                            <div class="screen-description">Manage healthcare appointments and reminders</div>
+                        </div>
+
+                        <div>
+                            <div class="phone-mockup">
+                                <div class="phone-screen">
+                                    <img src="../Android App Images/Support Groups Page.jpg" alt="Support Groups" loading="lazy">
+                                </div>
+                            </div>
+                            <div class="screen-label">Support Groups</div>
+                            <div class="screen-description">Connect with other patients for peer support</div>
+                        </div>
+                    </div>
+
+                    <div class="section-content" style="margin-top: 3rem;">
+                        <h4 style="color: var(--color-accent); font-size: 1.3rem; margin-bottom: 1rem;">Technical Implementation</h4>
+                        <ul style="margin-left: 2rem;">
+                            <li style="margin-bottom: 0.5rem;">💻 <strong>Android Studio & Java:</strong> Native Android development for optimal performance</li>
+                            <li style="margin-bottom: 0.5rem;">📊 <strong>Google Sheets Database:</strong> Cost-effective cloud storage accessible to healthcare providers</li>
+                            <li style="margin-bottom: 0.5rem;">🔗 <strong>JavaScript Integration:</strong> Custom scripts for data management and synchronization</li>
+                            <li style="margin-bottom: 0.5rem;">🎨 <strong>Material Design:</strong> Modern, intuitive UI following Android design guidelines</li>
+                            <li style="margin-bottom: 0.5rem;">🔔 <strong>Push Notifications:</strong> Medication reminders and appointment alerts</li>
+                            <li style="margin-bottom: 0.5rem;">🌐 <strong>Offline Support:</strong> Core features work without internet, sync when connected</li>
+                        </ul>
+                    </div>
+
+                    <div class="section-content" style="margin-top: 2rem; background: rgba(0, 255, 209, 0.05); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--color-accent);">
+                        <p style="font-size: 1.05rem; margin: 0;"><strong>Impact:</strong> The Android app extends the Smart Pillbox ecosystem beyond hardware limitations, making medication adherence support accessible to the growing number of smartphone users in South Africa. It provides a comprehensive digital health platform that empowers patients and enables healthcare professionals to deliver better care remotely.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Electronic Components -->
+            <div class="content-section">
+                <h2 class="section-title">Electronic Components</h2>
+                <div class="section-content">
+                    <p>The smart pillbox utilizes carefully selected components to ensure reliability, efficiency, and modularity:</p>
+                </div>
+                <div class="components-grid">
+                    <div class="component-item">
+                        <div class="component-name">ESP32 Microcontroller</div>
+                        <p class="component-description">Main processing unit with built-in WiFi and Bluetooth capabilities for connectivity and control.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">RTC Module (DS3231)</div>
+                        <p class="component-description">Real-time clock for accurate medication scheduling and time-based reminders.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">Laser and LDR sensor mechanism</div>
+                        <p class="component-description">Mechanism to detect when medication is dispensed from compartments.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">Buzzer Module</div>
+                        <p class="component-description">Audio alert system for medication reminders and notifications.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">Li-ion Battery (18650)</div>
+                        <p class="component-description">Rechargeable battery providing long-lasting power for extended operation.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">16340 Charging Module</div>
+                        <p class="component-description">Battery charging circuit with protection for safe and efficient charging.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">SD Card Module</div>
+                        <p class="component-description">Local storage for medication intake logs and event history.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">LCD Display (Optional)</div>
+                        <p class="component-description">OLED display module for visual medication instructions.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">GSM Module (Optional)</div>
+                        <p class="component-description">SIM800C for SMS notifications and remote monitoring.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">Solar Panel (Optional)</div>
+                        <p class="component-description">Small 5V solar panel for charging in areas with no electricity.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">Light Emitting Diode (LED)</div>
+                        <p class="component-description">Provides visual alerts for medication and refill reminders.</p>
+                    </div>
+                    <div class="component-item">
+                        <div class="component-name">Expansion Connectors</div>
+                        <p class="component-description">Connectors and headers for plugging in optional modules.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technologies Used -->
+            <div class="content-section">
+                <h2 class="section-title">Technologies & Tools</h2>
+                <div class="tech-stack">
+                    <span class="tech-tag">ESP32</span>
+                    <span class="tech-tag">C Programming</span>
+                    <span class="tech-tag">Arduino IDE</span>
+                    <span class="tech-tag">KiCad</span>
+                    <span class="tech-tag">Autodesk Inventor</span>
+                    <span class="tech-tag">Android Studio</span>
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">Google Sheets API</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="" class="lightbox-img">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = lightbox.querySelector('.lightbox-img');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const lightboxClose = document.querySelector('.lightbox-close');
+
+            // Open lightbox
+            galleryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const img = item.querySelector('img');
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            });
+
+            // Close lightbox
+            function closeLightbox() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Close on escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

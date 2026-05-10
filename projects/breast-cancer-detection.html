@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breast Cancer Detection | Innocent Makaya</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .project-viewer {
+            min-height: 100vh;
+            background: var(--color-background);
+            color: var(--color-text);
+        }
+
+        .viewer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--color-text);
+            text-decoration: none;
+            margin-bottom: 3rem;
+            border: 2px solid var(--color-accent);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .back-button:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateX(-5px);
+        }
+
+        .project-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        .project-title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--color-text);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--color-text) 0%, var(--color-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .project-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: var(--color-surface);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 32px rgba(0, 255, 209, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--color-accent);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 2rem;
+            background: var(--color-accent);
+            border-radius: 2px;
+        }
+
+        .section-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--color-text);
+        }
+
+        .section-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: var(--color-accent);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--color-text);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 209, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--color-accent);
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .feature-description {
+            font-size: 1rem;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .step-card {
+            position: relative;
+            background: var(--color-surface-light);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 209, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-accent);
+            box-shadow: 0 8px 24px rgba(0, 255, 209, 0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            border: 4px solid var(--color-surface);
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            color: var(--color-accent);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .step-description {
+            font-size: 1rem;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-accent);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 2.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 20px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--color-accent);
+            border-radius: 50%;
+            border: 4px solid var(--color-surface);
+        }
+
+        .timeline-content {
+            background: var(--color-surface-light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .timeline-title {
+            font-size: 1.2rem;
+            color: var(--color-accent);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .timeline-description {
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-tag {
+            padding: 0.75rem 1.5rem;
+            background: var(--color-surface-light);
+            color: var(--color-accent);
+            border-radius: 8px;
+            font-weight: 500;
+            border: 1px solid var(--color-accent);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--color-accent);
+            color: var(--color-text-dark);
+            transform: translateY(-2px);
+        }
+
+        .video-frame {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+            border-radius: 16px;
+            overflow: hidden;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(0, 255, 209, 0.3), 0 0 40px rgba(0, 255, 209, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 30px rgba(0, 255, 209, 0.6), 0 0 60px rgba(0, 255, 209, 0.3);
+            }
+        }
+
+        .video-frame video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 2px solid var(--color-accent);
+            border-radius: 16px;
+        }
+
+        .video-label {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .viewer-container {
+                padding: 1rem;
+            }
+
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .timeline::before {
+                left: 15px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+            }
+
+            .timeline-marker {
+                left: 5px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="project-viewer">
+        <div class="viewer-container">
+            <a href="../index.html#projects" class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Back to Projects
+            </a>
+
+            <div class="project-header">
+                <h1 class="project-title">Breast Cancer Detection Using Deep Learning</h1>
+                <p class="project-subtitle">AI-Powered Histopathology Image Analysis for Early Cancer Detection</p>
+            </div>
+
+            <!-- Problem & Context -->
+            <div class="content-section">
+                <h2 class="section-title">Problem Statement</h2>
+                <div class="section-content">
+                    <p>Breast cancer is one of the leading causes of death among women worldwide. Early and accurate detection is critical for improving treatment outcomes and survival rates. However, the current diagnostic process relies heavily on manual examination of histopathology images by pathologists, which is time-consuming, prone to human error, and limited by the shortage of specialists, especially in low-resource settings.
+
+These challenges often lead to delays and inconsistencies in diagnosis. Therefore, there is a need for an accurate, efficient, and accessible system that can assist pathologists in detecting breast cancer from histopathology images using deep learning techniques.</p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="content-section">
+                <h2 class="section-title">How It Works</h2>
+                <div class="section-content">
+                    <p>This deep learning system analyzes histopathology images to classify tissue as cancerous or non-cancerous, enabling rapid screening and early detection to support clinical decision-making.</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h3 class="step-title">Upload Image</h3>
+                        <p class="step-description">Upload histopathology image through a user-friendly web app interface.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h3 class="step-title">Deep Learning Model Analysis</h3>
+                        <p class="step-description">The trained model analyzes the image using ResNet50 transfer learning to identify tissue patterns.</p>
+                    </div>
+
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h3 class="step-title">Get Instant Prediction</h3>
+                        <p class="step-description">The model makes real-time predictions showing whether cancer is present or not.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Development Process -->
+            <div class="content-section">
+                <h2 class="section-title">Development Process</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">1. Environment Setup & GPU Configuration</h3>
+                            <p class="timeline-description">Set up Google Colab with GPU acceleration for efficient deep learning training. Verified TensorFlow installation and GPU availability for faster computations.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">2. Dataset Acquisition</h3>
+                            <p class="timeline-description">Downloaded the Breast Histopathology Images dataset (277,524 images) from Kaggle. Dataset contains 50x50 pixel patches, labeled as cancerous (1) or non-cancerous (0).</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">3. Data Preprocessing & Organization</h3>
+                            <p class="timeline-description">Organized dataset into training/validation splits (80/20 ratio). Implemented random shuffling and limited to 6,000 images per class to optimize for free-tier GPU constraints while maintaining class balance.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">4. Data Pipeline Optimization</h3>
+                            <p class="timeline-description">Created efficient data loading using TensorFlow's image_dataset_from_directory. Resized images to 224x224 pixels (ResNet50 input size) and implemented caching, shuffling, and prefetching for maximum GPU utilization.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">5. Model Architecture Design</h3>
+                            <p class="timeline-description">Built transfer learning model using ResNet50 pre-trained on ImageNet. Froze base layers and added custom classification layers: Global Average Pooling, Dense(128, ReLU), Dropout(0.5), and final Dense(2, softmax) for binary classification.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">6. Model Training & Optimization</h3>
+                            <p class="timeline-description">Compiled with Adam optimizer and categorical cross-entropy loss. Implemented early stopping (patience=3) and model checkpointing to save best weights based on validation accuracy. Trained for up to 10 epochs.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">7. Model Evaluation & Validation</h3>
+                            <p class="timeline-description">Evaluated on validation set using validation accuracy and loss.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">8. Web Application Development</h3>
+                            <p class="timeline-description">Built Streamlit web application for easy deployment. Created intuitive interface where users can upload histopathology images and receive instant predictions with confidence scores and visual feedback.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Model Performance -->
+            <div class="content-section">
+                <h2 class="section-title">Model Performance</h2>
+                <div class="section-content">
+                    <p>The trained deep learning model achieved strong results on both training and validation datasets, demonstrating reliable accuracy in detecting cancerous tissues. Here are the final performance metrics:</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">0.8564</div>
+                        <div class="stat-label">Training Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0.3220</div>
+                        <div class="stat-label">Training Loss</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0.8537</div>
+                        <div class="stat-label">Validation Accuracy</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">0.3433</div>
+                        <div class="stat-label">Validation Loss</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">10</div>
+                        <div class="stat-label">Training Epochs</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Streamlit Web App -->
+            <div class="content-section">
+                <h2 class="section-title">Streamlit Web App</h2>
+                <div class="section-content">
+                    <p>Watch the live demo of the Breast Cancer Detection web application in action. See how the system processes histopathology images and delivers instant predictions.</p>
+                </div>
+                <div class="video-frame">
+                    <video controls>
+                        <source src="../Breast Cancer/Breast Cancer Detection Demo.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+                <div class="video-label">✨ Check Demo Here ✨</div>
+            </div>
+
+            <!-- Impact & Applications -->
+            <div class="content-section">
+                <h2 class="section-title">Impact & Real-World Applications</h2>
+                <div class="section-content">
+                    <h3 style="color: var(--color-accent); margin-bottom: 1rem; font-size: 1.5rem;">Clinical Benefits</h3>
+                    <ul style="margin-left: 2rem; margin-bottom: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Early Detection:</strong> Rapid screening identifies cancerous tissues faster, enabling timely intervention</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Reduced Burden:</strong> Automates initial screening, allowing pathologists to focus on complex cases</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Improved Consistency:</strong> AI gives the same, reliable results every time because it does not get tired or biased.</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Accessible Diagnosis:</strong> Remote screening in areas with limited specialist availability</li>
+                        <li style="margin-bottom: 0.5rem;">✓ <strong>Cost-Effective:</strong> Reduces diagnostic delays and associated healthcare costs</li>
+                    </ul>
+
+                    <h3 style="color: var(--color-accent); margin-bottom: 1rem; font-size: 1.5rem;">Potential Use Cases</h3>
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 0.5rem;">🏥 <strong>Diagnostic Laboratories:</strong> Helps with quick first-round screening of tissue samples.</li>
+                        <li style="margin-bottom: 0.5rem;">🌍 <strong>Resource-Limited Settings:</strong> Provides basic, affordable cancer screening where specialists are scarce.</li>
+                        <li style="margin-bottom: 0.5rem;">🔬 <strong>Research Institutions:</strong> Speeds up the analysis of large pathology datasets.</li>
+                        <li style="margin-bottom: 0.5rem;">📚 <strong>Medical Education:</strong> Helps students learn how cancerous tissue looks.</li>
+                        <li style="margin-bottom: 0.5rem;">🏢 <strong>Hospital Systems:</strong> Fits into digital pathology workflows to support faster review of cases.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Technologies Used -->
+            <div class="content-section">
+                <h2 class="section-title">Technologies & Tools</h2>
+                <div class="tech-stack">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">TensorFlow</span>
+                    <span class="tech-tag">ResNet50</span>
+                    <span class="tech-tag">Transfer Learning</span>
+                    <span class="tech-tag">Pycharm</span>
+                    <span class="tech-tag">Streamlit</span>
+                    <span class="tech-tag">Google Colab</span>
+                    <span class="tech-tag">Deep Learning</span>
+                </div>
+            </div>
+
+            <!-- Future Enhancements -->
+            <div class="content-section">
+                <h2 class="section-title">Future Enhancements</h2>
+                <div class="section-content">
+                    <ul style="margin-left: 2rem;">
+                        <li style="margin-bottom: 1rem;">🔍 <strong>Explainable AI:</strong> Show which parts of the image the model used to make its prediction.</li>
+                        <li style="margin-bottom: 1rem;">📊 <strong>Ensemble Models:</strong> Combine different deep learning models to get more reliable results.</li>
+                        <li style="margin-bottom: 1rem;">⚕️ <strong>Clinical Validation:</strong> Partner with healthcare institutions for real-world testing and regulatory approval</li>
+                        <li style="margin-bottom: 1rem;">☁️ <strong>Cloud Deployment:</strong> Run the model on cloud platforms so hospitals can use it at scale.</li>
+                        <li style="margin-bottom: 1rem;">📱 <strong>Mobile Application:</strong> Develop iOS/Android apps for point-of-care diagnosis</li>
+                        <li style="margin-bottom: 1rem;">🔄 <strong>Continuous Learning:</strong> Improve the model over time by adding new training data.</li>
+                        <li style="margin-bottom: 1rem;">🩺 <strong>Multi-Cancer Detection:</strong> Expand to detect other cancer types from histopathology images</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>
